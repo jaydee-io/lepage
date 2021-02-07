@@ -13,15 +13,42 @@ if(NOT CTLEPAGE_BUILD_TESTS)
     return()
 endif()
 
-macro(enable_unit_test)
-    find_package(GTest REQUIRED)
+macro(find_googletest)
+    # First, try the system wide installation
+    find_package(GTest)
+    if(GTEST_FOUND)
+        set(CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS GTest::GTest GTest::Main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
+    # If not available, try fetching from github
+    else()
+        message(STATUS "Fetching GoogleTest from GitHub")
+        include(FetchContent)
 
+        FetchContent_Declare(
+            googletest
+            GIT_REPOSITORY https://github.com/google/googletest.git
+            GIT_TAG        release-1.10.0
+        )
+        
+        FetchContent_GetProperties(googletest)
+        if(NOT googletest_POPULATED)
+            FetchContent_Populate(googletest)
+            add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+        endif()
+        message(STATUS "Fetching GoogleTest from GitHub - done")
+
+        include(GoogleTest)
+        set(CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS gtest gmock gtest_main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
+    endif()
+endmacro()
+
+macro(enable_unit_test)
+    find_googletest()
     enable_testing()
 endmacro()
 
 function(add_unit_test TEST_TARGET)
     add_executable(unittest-${TEST_TARGET} ${ARGN})
     target_compile_features(unittest-${TEST_TARGET} PRIVATE ${CTLEPAGE_CXX_STANDARD})
-    target_link_libraries(unittest-${TEST_TARGET} GTest::GTest GTest::Main)
+    target_link_libraries(unittest-${TEST_TARGET} ${CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS})
     gtest_discover_tests(unittest-${TEST_TARGET} EXTRA_ARGS --gtest_color=yes)
 endfunction()
