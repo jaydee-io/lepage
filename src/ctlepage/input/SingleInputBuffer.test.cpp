@@ -110,3 +110,30 @@ TEST(SingleInputBuffer, AcceptLexeme_PastEndOfBuffer)
     /* Check again that previous call to acceptLexeme() didn't change the lexeme begin/end position */
     ASSERT_EQ("", src.acceptLexeme());
 }
+
+TEST(SingleInputBuffer, Constexpr)
+{
+    struct NestedStruct {
+        constexpr static bool checkInputBufferAtCompileTime(std::string_view content)
+        {
+            SingleInputBuffer src(content);
+
+            /* Check each character */
+            for(const auto c : content)
+                if(src.nextCharacter() != c)
+                    return false;
+
+            /* Parse the whole content */
+            if(src.nextCharacter() != decltype(src)::END_OF_BUFFER)
+                return false;
+#if defined(__cpp_lib_constexpr_string)
+            if(src.acceptLexeme() != "Test of content")
+                return false;
+#endif /* __cpp_lib_constexpr_string*/
+
+            return true;
+        }
+    };
+
+    static_assert(NestedStruct::checkInputBufferAtCompileTime("Test of content"), "InputBuffer should be usable at compile time");
+}
