@@ -16,6 +16,7 @@ class InputBuffer
 {
 public:
     using Character = CharT;
+    using String = std::basic_string<Character>;
     using StringView = std::basic_string_view<Character>;
     using ViewIterator = typename StringView::iterator;
 
@@ -24,7 +25,7 @@ public:
     virtual constexpr ~InputBuffer() = default;
 
     virtual constexpr Character nextCharacter(void) noexcept = 0;
-    virtual constexpr StringView acceptLexeme(void) noexcept = 0;
+    virtual constexpr String acceptLexeme(void) noexcept = 0;
 };
 
 }; // namespace ctlepage::input

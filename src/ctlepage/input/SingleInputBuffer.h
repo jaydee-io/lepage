@@ -21,6 +21,7 @@ class SingleInputBuffer final : public InputBuffer<CharT>
 public:
     /* Use types from InputBuffer */
     using typename InputBuffer<CharT>::Character;
+    using typename InputBuffer<CharT>::String;
     using typename InputBuffer<CharT>::StringView;
     using typename InputBuffer<CharT>::ViewIterator;
     using InputBuffer<CharT>::END_OF_BUFFER;
@@ -29,7 +30,7 @@ public:
     virtual constexpr ~SingleInputBuffer() = default;
 
     inline constexpr Character nextCharacter(void) noexcept override;
-    inline constexpr StringView acceptLexeme(void) noexcept override;
+    inline constexpr String acceptLexeme(void) noexcept override;
 
 private:
     using StringSize = typename InputBuffer<CharT>::StringView::size_type;
@@ -37,7 +38,7 @@ private:
     inline constexpr bool isBeginOfBuffer(void) noexcept;
     inline constexpr bool isEndOfBuffer(void) noexcept;
     inline constexpr StringSize lexemeSize(void) noexcept;
-    inline constexpr StringView extractLexeme(void) noexcept;
+    inline constexpr String extractLexeme(void) noexcept;
 
     const StringView buffer_;
     ViewIterator lexemeBegin_;
@@ -66,7 +67,7 @@ inline constexpr typename SingleInputBuffer<CharT>::Character SingleInputBuffer<
 }
 
 template<typename CharT>
-inline constexpr typename SingleInputBuffer<CharT>::StringView SingleInputBuffer<CharT>::acceptLexeme(void) noexcept
+inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<CharT>::acceptLexeme(void) noexcept
 {
     auto lexeme = extractLexeme();
 
@@ -103,7 +104,7 @@ inline constexpr typename SingleInputBuffer<CharT>::StringSize SingleInputBuffer
 }
 
 template<typename CharT>
-inline constexpr typename SingleInputBuffer<CharT>::StringView SingleInputBuffer<CharT>::extractLexeme(void) noexcept
+inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<CharT>::extractLexeme(void) noexcept
 {
     return { lexemeBegin_, lexemeSize() };
 }
