@@ -93,7 +93,7 @@ inline constexpr bool SingleInputBuffer<CharT>::isEndOfBuffer(void) noexcept
 template<typename CharT>
 inline constexpr typename SingleInputBuffer<CharT>::StringSize SingleInputBuffer<CharT>::lexemeSize(void) noexcept
 {
-    if(isBeginOfBuffer())
+    if(isBeginOfBuffer() or (lexemeBegin_ == lexemeEnd_))
         return 0;
 
     auto size = std::distance(lexemeBegin_, lexemeEnd_);

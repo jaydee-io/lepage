@@ -20,16 +20,15 @@ TEST(SingleInputBuffer, NextCharacter)
     SingleInputBuffer src(content);
 
     /* Check each character */
-    for(const auto c : content) {
+    for(const auto c : content)
         ASSERT_EQ(c, src.nextCharacter());
-    }
 }
 
 TEST(SingleInputBuffer, NextCharacter_PastEnd)
 {
     SingleInputBuffer src("T");
 
-    ASSERT_EQ('T', src.nextCharacter());
+    src.nextCharacter(); /* 'T' */
     ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
 }
 
@@ -37,7 +36,7 @@ TEST(SingleInputBuffer, NextCharacter_AfterEmptyLexeme)
 {
     SingleInputBuffer src("Test of content");
 
-    src.acceptLexeme();
+    src.acceptLexeme(); /* Empty lexeme */
 
     ASSERT_EQ('T', src.nextCharacter());
 }
@@ -47,11 +46,14 @@ TEST(SingleInputBuffer, EndOfBuffer)
     const std::string content = "Test of content";
     SingleInputBuffer src(content);
 
-    for(const auto c : content) {
+    /* Parse the whole content */
+    for(const auto c : content)
         src.nextCharacter();
-    }
+
     /* Check end of buffer */
     ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
+    
+    /* Check again that next character hasn't changed */
     ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
 }
 
@@ -62,6 +64,7 @@ TEST(SingleInputBuffer, AcceptLexeme_WholeBuffer)
     /* Parse the whole content */
     while(src.nextCharacter() != decltype(src)::END_OF_BUFFER)
         ;
+
     ASSERT_EQ("Test of content", src.acceptLexeme());
 }
 
@@ -71,7 +74,7 @@ TEST(SingleInputBuffer, AcceptLexeme_RetractNextCharacter)
 
     while(src.nextCharacter() != ' ')
         ;
-    src.acceptLexeme();
+    src.acceptLexeme(); /* 'Test' */
 
     /* acceptLexeme() should retract the nextCharacter one position to its left */
     ASSERT_EQ(' ', src.nextCharacter());
@@ -80,6 +83,14 @@ TEST(SingleInputBuffer, AcceptLexeme_RetractNextCharacter)
 TEST(SingleInputBuffer, AcceptLexeme_EmptyLexeme)
 {
     SingleInputBuffer src("Test of content");
+
+    /* If we haven't read some character, lexeme should be empty */
+    ASSERT_EQ("", src.acceptLexeme());
+
+    /* After accepting a lexeme, next lexeme should be empty */
+    while(src.nextCharacter() != ' ')
+        ;
+    src.acceptLexeme(); /* 'Test' */
 
     ASSERT_EQ("", src.acceptLexeme());
 }
@@ -91,8 +102,11 @@ TEST(SingleInputBuffer, AcceptLexeme_PastEndOfBuffer)
     /* Parse the whole content */
     while(src.nextCharacter() != decltype(src)::END_OF_BUFFER)
         ;
-    src.acceptLexeme();
+    src.acceptLexeme(); /* 'Test of content' */
 
+    /* Check that lexeme is empty when read past end of buffer */
     ASSERT_EQ("", src.acceptLexeme());
+
+    /* Check again that previous call to acceptLexeme() didn't change the lexeme begin/end position */
     ASSERT_EQ("", src.acceptLexeme());
 }
