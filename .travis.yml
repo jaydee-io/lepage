@@ -3,9 +3,6 @@ language: cpp
 git:
   depth: 1
 
-install:
-  - if [[ -n "$CUSTOM_COMPILER" ]]; then eval "${CUSTOM_COMPILER}"; fi
-
 script:
   - mkdir build
   - cd build
@@ -21,6 +18,7 @@ matrix:
     #################################################################################
     # gcc 10
     - os: linux
+      name: Linux / gcc 10
       compiler: gcc
       addons:
         apt:
@@ -28,13 +26,16 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
-      env: CUSTOM_COMPILER="CC=gcc-10 && CXX=g++-10"
+      env:
+        - CC=gcc-10
+        - CXX=g++-10
 
     #################################################################################
     # Linux / clang
     #################################################################################
     # clang 11
     - os: linux
+      name: Linux / clang 11
       compiler: clang
       addons:
         apt:
@@ -44,9 +45,12 @@ matrix:
           packages:
             - clang-11
             - g++-10
-      env: CUSTOM_COMPILER="CC=clang-11 && CXX=clang++-11"
+      env:
+        - CC=clang-11
+        - CXX=clang++-11
     # clang 10
     - os: linux
+      name: Linux / clang 10
       compiler: clang
       addons:
         apt:
@@ -56,13 +60,16 @@ matrix:
           packages:
             - clang-10
             - g++-10
-      env: CUSTOM_COMPILER="CC=clang-10 && CXX=clang++-10"
+      env:
+        - CC=clang-10
+        - CXX=clang++-10
 
     #################################################################################
     # macosx
     #################################################################################
     # osx (xcode 12.2)
     - os: osx
+      name: macOs / xcode 12.2
       osx_image: xcode12.2
 
     #################################################################################
