@@ -27,7 +27,7 @@ TEST(SingleInputBuffer, NextCharacter)
 
     /* Check each character */
     for(const auto c : content)
-        ASSERT_EQ(c, src.nextCharacter());
+        EXPECT_EQ(c, src.nextCharacter());
 }
 
 TEST(SingleInputBuffer, NextCharacter_PastEnd)
@@ -35,7 +35,7 @@ TEST(SingleInputBuffer, NextCharacter_PastEnd)
     SingleInputBuffer src("T");
 
     src.nextCharacter(); /* 'T' */
-    ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
+    EXPECT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
 }
 
 TEST(SingleInputBuffer, NextCharacter_AfterEmptyLexeme)
@@ -44,7 +44,7 @@ TEST(SingleInputBuffer, NextCharacter_AfterEmptyLexeme)
 
     src.acceptLexeme(); /* Empty lexeme */
 
-    ASSERT_EQ('T', src.nextCharacter());
+    EXPECT_EQ('T', src.nextCharacter());
 }
 
 TEST(SingleInputBuffer, EndOfBuffer)
@@ -57,10 +57,10 @@ TEST(SingleInputBuffer, EndOfBuffer)
         src.nextCharacter();
 
     /* Check end of buffer */
-    ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
+    EXPECT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
     
     /* Check again that next character hasn't changed */
-    ASSERT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
+    EXPECT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
 }
 
 TEST(SingleInputBuffer, AcceptLexeme_WholeBuffer)
@@ -71,7 +71,7 @@ TEST(SingleInputBuffer, AcceptLexeme_WholeBuffer)
     while(src.nextCharacter() != decltype(src)::END_OF_BUFFER)
         ;
 
-    ASSERT_EQ("Test of content", src.acceptLexeme());
+    EXPECT_EQ("Test of content", src.acceptLexeme());
 }
 
 TEST(SingleInputBuffer, AcceptLexeme_RetractNextCharacter)
@@ -83,7 +83,7 @@ TEST(SingleInputBuffer, AcceptLexeme_RetractNextCharacter)
     src.acceptLexeme(); /* 'Test' */
 
     /* acceptLexeme() should retract the nextCharacter one position to its left */
-    ASSERT_EQ(' ', src.nextCharacter());
+    EXPECT_EQ(' ', src.nextCharacter());
 }
 
 TEST(SingleInputBuffer, AcceptLexeme_EmptyLexeme)
@@ -91,14 +91,14 @@ TEST(SingleInputBuffer, AcceptLexeme_EmptyLexeme)
     SingleInputBuffer src("Test of content");
 
     /* If we haven't read some character, lexeme should be empty */
-    ASSERT_EQ("", src.acceptLexeme());
+    EXPECT_EQ("", src.acceptLexeme());
 
     /* After accepting a lexeme, next lexeme should be empty */
     while(src.nextCharacter() != ' ')
         ;
     src.acceptLexeme(); /* 'Test' */
 
-    ASSERT_EQ("", src.acceptLexeme());
+    EXPECT_EQ("", src.acceptLexeme());
 }
 
 TEST(SingleInputBuffer, AcceptLexeme_PastEndOfBuffer)
@@ -111,10 +111,10 @@ TEST(SingleInputBuffer, AcceptLexeme_PastEndOfBuffer)
     src.acceptLexeme(); /* 'Test of content' */
 
     /* Check that lexeme is empty when read past end of buffer */
-    ASSERT_EQ("", src.acceptLexeme());
+    EXPECT_EQ("", src.acceptLexeme());
 
     /* Check again that previous call to acceptLexeme() didn't change the lexeme begin/end position */
-    ASSERT_EQ("", src.acceptLexeme());
+    EXPECT_EQ("", src.acceptLexeme());
 }
 
 TEST(SingleInputBuffer, Constexpr)
