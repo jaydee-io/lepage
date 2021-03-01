@@ -26,7 +26,7 @@ public:
     using typename InputBuffer<CharT>::ViewIterator;
     using InputBuffer<CharT>::END_OF_BUFFER;
 
-    inline constexpr SingleInputBuffer(StringView content);
+    inline constexpr SingleInputBuffer(StringView content) noexcept;
     virtual constexpr ~SingleInputBuffer() = default;
 
     inline constexpr Character nextCharacter(void) noexcept override;
@@ -37,6 +37,7 @@ private:
 
     inline constexpr bool isBeginOfBuffer(void) noexcept;
     inline constexpr bool isEndOfBuffer(void) noexcept;
+    inline constexpr bool isLexemeEmpty(void) noexcept;
     inline constexpr StringSize lexemeSize(void) noexcept;
     inline constexpr String extractLexeme(void) noexcept;
 
@@ -51,7 +52,7 @@ private:
  * SingleInputBuffer implementation
  */
 template<typename CharT>
-inline constexpr SingleInputBuffer<CharT>::SingleInputBuffer(StringView content)
+inline constexpr SingleInputBuffer<CharT>::SingleInputBuffer(StringView content) noexcept
 : buffer_(std::move(content))
 , lexemeBegin_(buffer_.cbegin())
 , lexemeEnd_(lexemeBegin_)
@@ -91,13 +92,17 @@ inline constexpr bool SingleInputBuffer<CharT>::isEndOfBuffer(void) noexcept
 }
 
 template<typename CharT>
+inline constexpr bool SingleInputBuffer<CharT>::isLexemeEmpty(void) noexcept
+{
+    return lexemeBegin_ == lexemeEnd_;
+}
+
+template<typename CharT>
 inline constexpr typename SingleInputBuffer<CharT>::StringSize SingleInputBuffer<CharT>::lexemeSize(void) noexcept
 {
-    if(isBeginOfBuffer() or (lexemeBegin_ == lexemeEnd_))
-        return 0;
-
     auto size = std::distance(lexemeBegin_, lexemeEnd_);
-    if(isEndOfBuffer())
+
+    if(isLexemeEmpty() or isEndOfBuffer())
         return size;
     else
         return size - 1;
