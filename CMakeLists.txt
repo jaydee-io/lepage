@@ -14,4 +14,5 @@ include(UnitTest)
 
 enable_unit_test()
 
+include_directories(src)
 add_subdirectory(src/ctlepage)

@@ -6,7 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_SOURCE_LOCATION_PROVIDER_H
 #define CTLEPAGE_SOURCE_LOCATION_PROVIDER_H
-#include "SourceLocation.h"
+#include <ctlepage/input/SourceLocation.h>
+#include <cstddef>
 #include <vector>
 
 namespace ctlepage::input {

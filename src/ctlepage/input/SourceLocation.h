@@ -6,6 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_SOURCE_LOCATION_H
 #define CTLEPAGE_SOURCE_LOCATION_H
+#include <cstdint>
+
 namespace ctlepage::input {
 
 /*

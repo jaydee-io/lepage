@@ -6,8 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_LEXEME_H
 #define CTLEPAGE_LEXEME_H
+#include <ctlepage/input/SourceLocation.h>
 #include <string>
-#include "SourceLocation.h"
 
 namespace ctlepage::input {
 

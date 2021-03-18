@@ -6,7 +6,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_INPUT_BUFFER_H
 #define CTLEPAGE_INPUT_BUFFER_H
-#include "Lexeme.h"
+#include <ctlepage/input/Lexeme.h>
 
 #include <string>
 #include <string_view>
