@@ -9,6 +9,8 @@
 #include <filesystem>
 #include <string>
 #include "InputBuffer.h"
+#include "SourceLocation.h"
+#include "SourceLocationProvider.h"
 
 namespace ctlepage::input {
 
@@ -30,7 +32,7 @@ public:
     virtual constexpr ~SingleInputBuffer() = default;
 
     inline constexpr Character nextCharacter(void) noexcept override;
-    inline constexpr String acceptLexeme(void) noexcept override;
+    inline constexpr Lexeme<CharT> acceptLexeme(void) noexcept override;
 
 private:
     using StringSize = typename InputBuffer<CharT>::StringView::size_type;
@@ -39,11 +41,14 @@ private:
     inline constexpr bool isEndOfBuffer(void) noexcept;
     inline constexpr bool isLexemeEmpty(void) noexcept;
     inline constexpr StringSize lexemeSize(void) noexcept;
-    inline constexpr String extractLexeme(void) noexcept;
+    inline constexpr String extractLexemeContent(void) noexcept;
 
     const StringView buffer_;
     ViewIterator lexemeBegin_;
     ViewIterator lexemeEnd_;
+
+    SourceLocationProvider<CharT> sourceLocation_;
+    SourceLocation lexemeStartLocation_;
 };
 
 
@@ -56,11 +61,15 @@ inline constexpr SingleInputBuffer<CharT>::SingleInputBuffer(StringView content)
 : buffer_(std::move(content))
 , lexemeBegin_(buffer_.cbegin())
 , lexemeEnd_(lexemeBegin_)
+, sourceLocation_()
+, lexemeStartLocation_(sourceLocation_.currentLocation())
 {}
 
 template<typename CharT>
 inline constexpr typename SingleInputBuffer<CharT>::Character SingleInputBuffer<CharT>::nextCharacter(void) noexcept
 {
+    sourceLocation_.forward(*lexemeEnd_);
+
     if(isEndOfBuffer())
         return END_OF_BUFFER;
 
@@ -68,13 +77,19 @@ inline constexpr typename SingleInputBuffer<CharT>::Character SingleInputBuffer<
 }
 
 template<typename CharT>
-inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<CharT>::acceptLexeme(void) noexcept
+inline constexpr Lexeme<CharT> SingleInputBuffer<CharT>::acceptLexeme(void) noexcept
 {
-    auto lexeme = extractLexeme();
+    if(isLexemeEmpty())
+        return { "", lexemeStartLocation_, lexemeStartLocation_ };
+
+    Lexeme<CharT> lexeme = { extractLexemeContent(), lexemeStartLocation_, sourceLocation_.previousLocation() };
 
     if(not (isBeginOfBuffer() or isEndOfBuffer()))
         lexemeEnd_--;
     lexemeBegin_ = lexemeEnd_;
+
+    sourceLocation_.backward();
+    lexemeStartLocation_ = sourceLocation_.currentLocation();
 
     return lexeme;
 }
@@ -109,7 +124,7 @@ inline constexpr typename SingleInputBuffer<CharT>::StringSize SingleInputBuffer
 }
 
 template<typename CharT>
-inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<CharT>::extractLexeme(void) noexcept
+inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<CharT>::extractLexemeContent(void) noexcept
 {
     return { lexemeBegin_, lexemeSize() };
 }

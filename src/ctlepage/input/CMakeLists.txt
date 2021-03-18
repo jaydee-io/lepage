@@ -6,6 +6,6 @@
 ################################################################################
 
 add_unit_test(input
-    SourceLocation.test.cpp
+    SourceLocationProvider.test.cpp
     SingleInputBuffer.test.cpp
 )

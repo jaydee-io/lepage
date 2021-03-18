@@ -6,6 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_INPUT_BUFFER_H
 #define CTLEPAGE_INPUT_BUFFER_H
+#include "Lexeme.h"
+
 #include <string>
 #include <string_view>
 
@@ -25,7 +27,7 @@ public:
     virtual constexpr ~InputBuffer() = default;
 
     virtual constexpr Character nextCharacter(void) noexcept = 0;
-    virtual constexpr String acceptLexeme(void) noexcept = 0;
+    virtual constexpr Lexeme<CharT> acceptLexeme(void) noexcept = 0;
 };
 
 }; // namespace ctlepage::input
