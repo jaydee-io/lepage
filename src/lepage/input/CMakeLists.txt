@@ -17,7 +17,8 @@ add_library(${CMAKE_PROJECT_NAME}-input INTERFACE
 )
 target_link_libraries(${CMAKE_PROJECT_NAME}-input INTERFACE ${CMAKE_PROJECT_NAME}-details)
 
-add_unit_test(input
+add_unit_test(unittest-input
     SourceLocationProvider.test.cpp
     SingleInputBuffer.test.cpp
 )
+target_compile_features(unittest-input PRIVATE ${LEPAGE_CXX_STANDARD})
