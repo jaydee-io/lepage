@@ -5,5 +5,6 @@
 ## License. See LICENSE for details.
 ################################################################################
 
-add_subdirectory(details)
-add_subdirectory(input)
+add_library(${CMAKE_PROJECT_NAME}-details INTERFACE
+    Traits.h
+)

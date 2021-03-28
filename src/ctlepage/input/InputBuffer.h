@@ -6,10 +6,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_INPUT_BUFFER_H
 #define CTLEPAGE_INPUT_BUFFER_H
+#include <ctlepage/details/Traits.h>
 #include <ctlepage/input/Lexeme.h>
-
-#include <string>
-#include <string_view>
 
 namespace ctlepage::input {
 
@@ -17,16 +15,15 @@ template<typename CharT>
 class InputBuffer
 {
 public:
-    using Character = CharT;
-    using String = std::basic_string<Character>;
-    using StringView = std::basic_string_view<Character>;
-    using ViewIterator = typename StringView::iterator;
+    using String = typename details::Traits<CharT>::String;
+    using StringView = typename details::Traits<CharT>::StringView;
+    using ViewIterator = typename details::Traits<CharT>::ViewIterator;
 
-    static constexpr const auto END_OF_BUFFER = '\0'; // TODO Replace with a trait
+    static constexpr const auto END_OF_BUFFER = details::Traits<CharT>::DEFAULT_CHARACTER;
 
     virtual constexpr ~InputBuffer() = default;
 
-    virtual constexpr Character nextCharacter(void) noexcept = 0;
+    virtual constexpr CharT nextCharacter(void) noexcept = 0;
     virtual constexpr Lexeme<CharT> acceptLexeme(void) noexcept = 0;
 };
 

@@ -6,10 +6,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_SOURCE_FILE_H
 #define CTLEPAGE_SOURCE_FILE_H
+#include <ctlepage/details/Traits.h>
 #include <ctlepage/input/InputBuffer.h>
 #include <ctlepage/input/SourceLocation.h>
 #include <ctlepage/input/SourceLocationProvider.h>
-#include <string>
 
 namespace ctlepage::input {
 
@@ -21,7 +21,6 @@ class SingleInputBuffer final : public InputBuffer<CharT>
 {
 public:
     /* Use types from InputBuffer */
-    using typename InputBuffer<CharT>::Character;
     using typename InputBuffer<CharT>::String;
     using typename InputBuffer<CharT>::StringView;
     using typename InputBuffer<CharT>::ViewIterator;
@@ -30,7 +29,7 @@ public:
     inline constexpr SingleInputBuffer(StringView content) noexcept;
     virtual constexpr ~SingleInputBuffer() = default;
 
-    inline constexpr Character nextCharacter(void) noexcept override;
+    inline constexpr CharT nextCharacter(void) noexcept override;
     inline constexpr Lexeme<CharT> acceptLexeme(void) noexcept override;
 
 private:
@@ -65,7 +64,7 @@ inline constexpr SingleInputBuffer<CharT>::SingleInputBuffer(StringView content)
 {}
 
 template<typename CharT>
-inline constexpr typename SingleInputBuffer<CharT>::Character SingleInputBuffer<CharT>::nextCharacter(void) noexcept
+inline constexpr CharT SingleInputBuffer<CharT>::nextCharacter(void) noexcept
 {
     sourceLocation_.forward(*lexemeEnd_);
 

@@ -6,15 +6,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef CTLEPAGE_LEXEME_H
 #define CTLEPAGE_LEXEME_H
+#include <ctlepage/details/Traits.h>
 #include <ctlepage/input/SourceLocation.h>
-#include <string>
 
 namespace ctlepage::input {
 
 template<typename CharT>
 struct Lexeme
 {
-    using String = std::basic_string<CharT>;
+    using String = typename details::Traits<CharT>::String;
 
     /*
      * Rational of using string instead of string_view:

@@ -10,7 +10,14 @@ script:
   - cmake --build .
   - ctest -V
 
-matrix:
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+    packages:
+      - cmake=3.19
+
+jobs:
   include:
     #################################################################################
     # Linux / GCC
