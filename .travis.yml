@@ -10,18 +10,10 @@ script:
   - cmake --build .
   - ctest -V
 
-addons:
-  apt:
-    sources:
-      - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
-    packages:
-      - cmake=3.19
-
 jobs:
   include:
     #################################################################################
     # Linux / GCC
-    # GCC 4.8 and older doesn't support C++14
     #################################################################################
     # gcc 10
     - os: linux
@@ -31,11 +23,16 @@ jobs:
         apt:
           sources:
             - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+              key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
           packages:
             - g++-10
+            - cmake=3.19*
+            - cmake-data=3.19*
       env:
         - CC=gcc-10
         - CXX=g++-10
+        - PATH="/usr/bin:$PATH" # Find newly installed cmake binary first
 
     #################################################################################
     # Linux / clang
@@ -49,12 +46,17 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-focal-11
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+              key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
           packages:
             - clang-11
             - g++-10
+            - cmake=3.19*
+            - cmake-data=3.19*
       env:
         - CC=clang-11
         - CXX=clang++-11
+        - PATH="/usr/bin:$PATH" # Find newly installed cmake binary first
     # clang 10
     - os: linux
       name: Linux / clang 10
@@ -64,12 +66,17 @@ jobs:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-focal-10
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+              key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
           packages:
             - clang-10
             - g++-10
+            - cmake=3.19*
+            - cmake-data=3.19*
       env:
         - CC=clang-10
         - CXX=clang++-10
+        - PATH="/usr/bin:$PATH" # Find newly installed cmake binary first
 
     #################################################################################
     # macosx
@@ -78,6 +85,11 @@ jobs:
     - os: osx
       name: macOs / xcode 12.2
       osx_image: xcode12.2
+      addons:
+        homebrew:
+          packages:
+            - cmake
+          update: true
 
     #################################################################################
     # Windows
