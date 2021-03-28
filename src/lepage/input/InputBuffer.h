@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_INPUT_BUFFER_H
-#define CTLEPAGE_INPUT_BUFFER_H
-#include <ctlepage/details/Traits.h>
-#include <ctlepage/input/Lexeme.h>
+#ifndef LEPAGE_INPUT_BUFFER_H
+#define LEPAGE_INPUT_BUFFER_H
+#include <lepage/details/Traits.h>
+#include <lepage/input/Lexeme.h>
 
-namespace ctlepage::input {
+namespace lepage::input {
 
 template<typename CharT>
 class InputBuffer
@@ -27,6 +27,6 @@ public:
     virtual constexpr Lexeme<CharT> acceptLexeme(void) noexcept = 0;
 };
 
-}; // namespace ctlepage::input
+}; // namespace lepage::input
 
-#endif /* CTLEPAGE_INPUT_BUFFER_H */
+#endif /* LEPAGE_INPUT_BUFFER_H */

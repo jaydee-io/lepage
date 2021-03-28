@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_SOURCE_LOCATION_H
-#define CTLEPAGE_SOURCE_LOCATION_H
+#ifndef LEPAGE_SOURCE_LOCATION_H
+#define LEPAGE_SOURCE_LOCATION_H
 #include <cstdint>
 
-namespace ctlepage::input {
+namespace lepage::input {
 
 /*
  * SourceLocation
@@ -19,6 +19,6 @@ struct SourceLocation
     std::uint_least32_t column = 1;
 };
 
-}; // namespace ctlepage::input
+}; // namespace lepage::input
 
-#endif /* CTLEPAGE_SOURCE_LOCATION_H */
+#endif /* LEPAGE_SOURCE_LOCATION_H */

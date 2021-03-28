@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_LEXEME_H
-#define CTLEPAGE_LEXEME_H
-#include <ctlepage/details/Traits.h>
-#include <ctlepage/input/SourceLocation.h>
+#ifndef LEPAGE_LEXEME_H
+#define LEPAGE_LEXEME_H
+#include <lepage/details/Traits.h>
+#include <lepage/input/SourceLocation.h>
 
-namespace ctlepage::input {
+namespace lepage::input {
 
 template<typename CharT>
 struct Lexeme
@@ -26,6 +26,6 @@ struct Lexeme
     SourceLocation endLocation;   //< End location column is one character past the last lexeme character
 };
 
-}; // namespace ctlepage::input
+}; // namespace lepage::input
 
-#endif /* CTLEPAGE_LEXEME_H */
+#endif /* LEPAGE_LEXEME_H */

@@ -1,16 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_SOURCE_LOCATION_PROVIDER_H
-#define CTLEPAGE_SOURCE_LOCATION_PROVIDER_H
-#include <ctlepage/input/SourceLocation.h>
+#ifndef LEPAGE_SOURCE_LOCATION_PROVIDER_H
+#define LEPAGE_SOURCE_LOCATION_PROVIDER_H
+#include <lepage/input/SourceLocation.h>
 #include <cstddef>
 #include <vector>
 
-namespace ctlepage::input {
+namespace lepage::input {
 
 /*
  * SourceLocationProvider
@@ -142,6 +142,6 @@ inline constexpr std::uint_least32_t SourceLocationProvider<CharT>::lastColumnOf
     return newLineOffset_[line] - newLineOffset_[line - 1];
 }
 
-}; // namespace ctlepage::input
+}; // namespace lepage::input
 
-#endif /* CTLEPAGE_SOURCE_LOCATION_PROVIDER_H */
+#endif /* LEPAGE_SOURCE_LOCATION_PROVIDER_H */

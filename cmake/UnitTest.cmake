@@ -1,10 +1,10 @@
 ################################################################################
-##                                    ctlepage
+##                                    lepage
 ##
 ## This file is distributed under the 4-clause Berkeley Software Distribution
 ## License. See LICENSE for details.
 ################################################################################
-if(NOT CTLEPAGE_BUILD_TESTS)
+if(NOT LEPAGE_BUILD_TESTS)
     macro(enable_unit_test)
     endmacro()
     function(add_unit_test)
@@ -17,7 +17,7 @@ macro(find_googletest)
     # First, try the system wide installation
     find_package(GTest)
     if(GTEST_FOUND)
-        set(CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS GTest::GTest GTest::Main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
+        set(LEPAGE_INTERNAL_UNIT_TESTS_LIBS GTest::GTest GTest::Main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
     # If not available, try fetching from github
     else()
         message(STATUS "Fetching GoogleTest from GitHub")
@@ -37,7 +37,7 @@ macro(find_googletest)
         message(STATUS "Fetching GoogleTest from GitHub - done")
 
         include(GoogleTest)
-        set(CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS gtest gmock gtest_main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
+        set(LEPAGE_INTERNAL_UNIT_TESTS_LIBS gtest gmock gtest_main CACHE INTERNAL "INTERNAL Unit tests libraries to link")
     endif()
 endmacro()
 
@@ -48,7 +48,7 @@ endmacro()
 
 function(add_unit_test TEST_TARGET)
     add_executable(unittest-${TEST_TARGET} ${ARGN})
-    target_compile_features(unittest-${TEST_TARGET} PRIVATE ${CTLEPAGE_CXX_STANDARD})
-    target_link_libraries(unittest-${TEST_TARGET} ${CTLEPAGE_INTERNAL_UNIT_TESTS_LIBS})
+    target_compile_features(unittest-${TEST_TARGET} PRIVATE ${LEPAGE_CXX_STANDARD})
+    target_link_libraries(unittest-${TEST_TARGET} ${LEPAGE_INTERNAL_UNIT_TESTS_LIBS})
     gtest_discover_tests(unittest-${TEST_TARGET} EXTRA_ARGS --gtest_color=yes)
 endfunction()

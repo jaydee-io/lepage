@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include "SingleInputBuffer.h"
 
-using namespace ctlepage::input;
+using namespace lepage::input;
 
 #define EXPECT_LOCATION(srcLoc, line_, column_) \
     EXPECT_EQ(srcLoc.line,   line_);            \

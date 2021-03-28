@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_TRAITS_H
-#define CTLEPAGE_TRAITS_H
-namespace ctlepage::details {
+#ifndef LEPAGE_TRAITS_H
+#define LEPAGE_TRAITS_H
+namespace lepage::details {
 
 template<typename CharT>
 struct Traits
@@ -19,6 +19,6 @@ struct Traits
     static constexpr const auto DEFAULT_CHARACTER = CharT('\0');
 };
 
-}; // namespace ctlepage::details
+}; // namespace lepage::details
 
-#endif /* CTLEPAGE_TRAITS_H */
+#endif /* LEPAGE_TRAITS_H */

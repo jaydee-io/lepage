@@ -1,17 +1,17 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                    ctlepage
+//                                    lepage
 //
 // This file is distributed under the 4-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#ifndef CTLEPAGE_SOURCE_FILE_H
-#define CTLEPAGE_SOURCE_FILE_H
-#include <ctlepage/details/Traits.h>
-#include <ctlepage/input/InputBuffer.h>
-#include <ctlepage/input/SourceLocation.h>
-#include <ctlepage/input/SourceLocationProvider.h>
+#ifndef LEPAGE_SOURCE_FILE_H
+#define LEPAGE_SOURCE_FILE_H
+#include <lepage/details/Traits.h>
+#include <lepage/input/InputBuffer.h>
+#include <lepage/input/SourceLocation.h>
+#include <lepage/input/SourceLocationProvider.h>
 
-namespace ctlepage::input {
+namespace lepage::input {
 
 /*
  * SingleInputBuffer
@@ -127,6 +127,6 @@ inline constexpr typename SingleInputBuffer<CharT>::String SingleInputBuffer<Cha
     return { lexemeBegin_, lexemeSize() };
 }
 
-}; // namespace ctlepage::input
+}; // namespace lepage::input
 
-#endif /* CTLEPAGE_SOURCE_FILE_H */
+#endif /* LEPAGE_SOURCE_FILE_H */
