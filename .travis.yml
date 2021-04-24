@@ -19,6 +19,34 @@ script:
 jobs:
   include:
     #################################################################################
+    # Code coverage
+    #################################################################################
+    - os: linux
+      name: Code coverage
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ focal main'
+              key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
+          packages:
+            - g++-10
+            - lcov
+            - cmake=3.19*
+            - cmake-data=3.19*
+      env:
+        - CC=gcc-10
+        - CXX=g++-10
+        - PATH="/usr/bin:$PATH" # Find newly installed cmake binary first
+      script:
+        - mkdir build                        || travis_terminate 1
+        - cd build                           || travis_terminate 1
+        - cmake .. -DLEPAGE_CODE_COVERAGE=ON || travis_terminate 1
+        - make -j9 code-coverage-all         || travis_terminate 1
+        - ../scripts/uploadCoverage.sh       || travis_terminate 1
+
+    #################################################################################
     # Linux / GCC
     #################################################################################
     # gcc 10

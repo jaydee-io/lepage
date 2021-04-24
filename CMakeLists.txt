@@ -11,8 +11,10 @@ project(lepage CXX)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(Options)
 include(UnitTest)
+include(CodeCoverage)
 
 enable_unit_test()
+enable_code_coverage()
 
 include_directories(src)
 add_subdirectory(src/lepage)

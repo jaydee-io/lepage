@@ -16,6 +16,7 @@ add_library(${CMAKE_PROJECT_NAME}-input INTERFACE
     SingleInputBuffer.h
 )
 target_link_libraries(${CMAKE_PROJECT_NAME}-input INTERFACE ${CMAKE_PROJECT_NAME}-details)
+target_code_coverage(${CMAKE_PROJECT_NAME}-input INTERFACE)
 
 add_unit_test(unittest-input
     SourceLocationProvider.test.cpp
