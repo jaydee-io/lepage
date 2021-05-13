@@ -11,9 +11,9 @@ namespace lepage::details {
 template<typename CharT>
 struct Traits
 {
-    using Character = CharT;
-    using String = std::basic_string<CharT>;
-    using StringView = std::basic_string_view<CharT>;
+    using Character    = CharT;
+    using String       = std::basic_string<CharT>;
+    using StringView   = std::basic_string_view<CharT>;
     using ViewIterator = typename StringView::iterator;
 
     static constexpr const auto DEFAULT_CHARACTER = CharT('\0');

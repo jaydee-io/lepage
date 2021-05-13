@@ -21,9 +21,9 @@ struct Lexeme
      *  - A Lexeme own its value
      *  - Majority of lexemes fits into SSO buffer (about 24 bytes)
      */
-    String value;
+    String         value;
     SourceLocation startLocation;
-    SourceLocation endLocation;   //< End location column is one character past the last lexeme character
+    SourceLocation endLocation; //< End location column is one character past the last lexeme character
 };
 
 }; // namespace lepage::input

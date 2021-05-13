@@ -7,6 +7,7 @@
 #ifndef LEPAGE_SOURCE_LOCATION_PROVIDER_H
 #define LEPAGE_SOURCE_LOCATION_PROVIDER_H
 #include <lepage/input/SourceLocation.h>
+
 #include <cstddef>
 #include <vector>
 
@@ -26,22 +27,20 @@ public:
     inline constexpr void backward(void) noexcept;
 
 private:
-    inline constexpr bool isStartLocation(void) const noexcept;
-    inline constexpr bool isFirstLine(void) const noexcept;
-    inline constexpr bool isFirstColumn(void) const noexcept;
-    inline constexpr bool isLineFeed(CharT character) const noexcept;
-    inline constexpr bool isCarriageReturn(CharT character) const noexcept;
+    inline constexpr bool                isStartLocation(void) const noexcept;
+    inline constexpr bool                isFirstLine(void) const noexcept;
+    inline constexpr bool                isFirstColumn(void) const noexcept;
+    inline constexpr bool                isLineFeed(CharT character) const noexcept;
+    inline constexpr bool                isCarriageReturn(CharT character) const noexcept;
     inline constexpr std::uint_least32_t lastColumnOfLine(std::uint_least32_t line) const noexcept;
 
     SourceLocation currentLocation_;
 
     CharT previousCharacter = '\0';
 
-    std::size_t currentOffset_ = 0;
+    std::size_t              currentOffset_ = 0;
     std::vector<std::size_t> newLineOffset_ = { currentOffset_ }; //< Offset (number of characters) of each newline from begining
 };
-
-
 
 /*
  * SourceLocationProvider implementation
@@ -61,7 +60,7 @@ inline constexpr SourceLocation SourceLocationProvider<CharT>::previousLocation(
 
     // Previous location is at end of previous line (First location needs to be checked first)
     if(isFirstColumn())
-        return { currentLocation_.line - 1, lastColumnOfLine(currentLocation_.line - 1)};
+        return { currentLocation_.line - 1, lastColumnOfLine(currentLocation_.line - 1) };
 
     // Just go one column back
     return { currentLocation_.line, currentLocation_.column - 1 };
@@ -96,7 +95,7 @@ inline constexpr void SourceLocationProvider<CharT>::backward(void) noexcept
         return;
 
     auto needToRemoveLastNewLine = isFirstColumn();
-    currentLocation_ = previousLocation();
+    currentLocation_             = previousLocation();
     currentOffset_--;
 
     if(needToRemoveLastNewLine)
@@ -138,7 +137,7 @@ inline constexpr std::uint_least32_t SourceLocationProvider<CharT>::lastColumnOf
 {
     if(line > newLineOffset_.size())
         return 0;
-    
+
     return newLineOffset_[line] - newLineOffset_[line - 1];
 }
 

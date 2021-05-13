@@ -4,21 +4,22 @@
 // This file is distributed under the 3-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#include <gtest/gtest.h>
 #include "SingleInputBuffer.h"
+
+#include <gtest/gtest.h>
 
 using namespace lepage::input;
 
 #define EXPECT_LOCATION(srcLoc, line_, column_) \
-    EXPECT_EQ(srcLoc.line,   line_);            \
+    EXPECT_EQ(srcLoc.line, line_);              \
     EXPECT_EQ(srcLoc.column, column_);
 
 TEST(SingleInputBuffer, Creation)
 {
-    std::string movedContent = "Test of content";
+    std::string       movedContent = "Test of content";
     SingleInputBuffer srcMovedContent(std::move(movedContent));
 
-    std::string copiedContent = "Test of content";
+    std::string       copiedContent = "Test of content";
     SingleInputBuffer srcCopiedContent(copiedContent);
 
     SingleInputBuffer srcTemporaryContent("Test of content");
@@ -62,7 +63,7 @@ TEST(SingleInputBuffer, EndOfBuffer)
 
     /* Check end of buffer */
     EXPECT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
-    
+
     /* Check again that next character hasn't changed */
     EXPECT_EQ(decltype(src)::END_OF_BUFFER, src.nextCharacter());
 }
@@ -155,26 +156,26 @@ TEST(SingleInputBuffer, SourceLocation_WordsOnSameLine)
 {
     SingleInputBuffer src("Test of content");
 
-    /* Parse first word */ 
+    /* Parse first word */
     while(src.nextCharacter() != ' ')
         ;
     auto lexeme = src.acceptLexeme(); /* 'Test' */
     EXPECT_LOCATION(lexeme.startLocation, 1, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 5);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 5);
 
     /* Parse space */
     src.nextCharacter();
     src.nextCharacter();
     lexeme = src.acceptLexeme(); /* ' ' */
     EXPECT_LOCATION(lexeme.startLocation, 1, 5);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 6);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 6);
 
     /* Parse second word */
     while(src.nextCharacter() != ' ')
         ;
     lexeme = src.acceptLexeme(); /* 'of' */
     EXPECT_LOCATION(lexeme.startLocation, 1, 6);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 8);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 8);
 }
 
 TEST(SingleInputBuffer, SourceLocation_MultiLines)
@@ -186,35 +187,35 @@ TEST(SingleInputBuffer, SourceLocation_MultiLines)
         ;
     auto lexeme = src.acceptLexeme(); /* 'Test' */
     EXPECT_LOCATION(lexeme.startLocation, 1, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 5);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 5);
 
     /* Parse line feed */
     src.nextCharacter();
     src.nextCharacter();
     lexeme = src.acceptLexeme(); /* '\n' */
     EXPECT_LOCATION(lexeme.startLocation, 1, 5);
-    EXPECT_LOCATION(lexeme.endLocation,   2, 1);
+    EXPECT_LOCATION(lexeme.endLocation, 2, 1);
 
     /* Parse second line */
     while(src.nextCharacter() != '\r')
         ;
     lexeme = src.acceptLexeme(); /* 'of' */
     EXPECT_LOCATION(lexeme.startLocation, 2, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   2, 3);
+    EXPECT_LOCATION(lexeme.endLocation, 2, 3);
 
     /* Parse carriage return */
     src.nextCharacter();
     src.nextCharacter();
     lexeme = src.acceptLexeme(); /* '\r' */
     EXPECT_LOCATION(lexeme.startLocation, 2, 3);
-    EXPECT_LOCATION(lexeme.endLocation,   3, 1);
+    EXPECT_LOCATION(lexeme.endLocation, 3, 1);
 
     /* Parse third line */
     while(src.nextCharacter() != '\r')
         ;
     lexeme = src.acceptLexeme(); /* 'more' */
     EXPECT_LOCATION(lexeme.startLocation, 3, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   3, 5);
+    EXPECT_LOCATION(lexeme.endLocation, 3, 5);
 
     /* Parse carriage return and line feed */
     src.nextCharacter();
@@ -222,14 +223,14 @@ TEST(SingleInputBuffer, SourceLocation_MultiLines)
     src.nextCharacter();
     lexeme = src.acceptLexeme(); /* '\r\n' */
     EXPECT_LOCATION(lexeme.startLocation, 3, 5);
-    EXPECT_LOCATION(lexeme.endLocation,   4, 1);
+    EXPECT_LOCATION(lexeme.endLocation, 4, 1);
 
     /* Parse last line */
     while(src.nextCharacter() != decltype(src)::END_OF_BUFFER)
         ;
     lexeme = src.acceptLexeme(); /* 'content' */
     EXPECT_LOCATION(lexeme.startLocation, 4, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   4, 8);
+    EXPECT_LOCATION(lexeme.endLocation, 4, 8);
 }
 
 TEST(SingleInputBuffer, SourceLocation_EmptyLexeme)
@@ -239,7 +240,7 @@ TEST(SingleInputBuffer, SourceLocation_EmptyLexeme)
     /* If we haven't read some character, lexeme start/end locations should be at the begining */
     auto lexeme = src.acceptLexeme(); /* Empty lexeme */
     EXPECT_LOCATION(lexeme.startLocation, 1, 1);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 1);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 1);
 
     /* After accepting a lexeme, next lexeme should be empty : start/end location should be equal */
     while(src.nextCharacter() != ' ')
@@ -247,12 +248,12 @@ TEST(SingleInputBuffer, SourceLocation_EmptyLexeme)
     lexeme = src.acceptLexeme(); /* 'Test' */
     lexeme = src.acceptLexeme(); /* Empty lexeme */
     EXPECT_LOCATION(lexeme.startLocation, 1, 5);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 5);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 5);
 
     /* After accepting an empty lexeme, start/end location shouldn't have changed */
     lexeme = src.acceptLexeme(); /* Empty lexeme */
     EXPECT_LOCATION(lexeme.startLocation, 1, 5);
-    EXPECT_LOCATION(lexeme.endLocation,   1, 5);
+    EXPECT_LOCATION(lexeme.endLocation, 1, 5);
 }
 
 TEST(SingleInputBuffer, SourceLocation_PastEndOfBuffer)
@@ -268,18 +269,19 @@ TEST(SingleInputBuffer, SourceLocation_PastEndOfBuffer)
     /* Check that lexeme start/end location are one character past the end of buffer */
     auto lexeme = src.acceptLexeme();
     EXPECT_LOCATION(lexeme.startLocation, 1, content.size() + 1);
-    EXPECT_LOCATION(lexeme.endLocation,   1, content.size() + 1);
+    EXPECT_LOCATION(lexeme.endLocation, 1, content.size() + 1);
 
     /* Check again that previous call to acceptLexeme() didn't change the lexeme start/end location */
     lexeme = src.acceptLexeme();
     EXPECT_LOCATION(lexeme.startLocation, 1, content.size() + 1);
-    EXPECT_LOCATION(lexeme.endLocation,   1, content.size() + 1);
+    EXPECT_LOCATION(lexeme.endLocation, 1, content.size() + 1);
 }
 
 #if defined(__cpp_lib_constexpr_vector)
 TEST(SingleInputBuffer, Constexpr)
 {
-    struct NestedStruct {
+    struct NestedStruct
+    {
         constexpr static bool checkInputBufferAtCompileTime(std::string_view content)
         {
             SingleInputBuffer src(content);

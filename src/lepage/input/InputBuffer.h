@@ -15,16 +15,16 @@ template<typename CharT>
 class InputBuffer
 {
 public:
-    using String = typename details::Traits<CharT>::String;
-    using StringView = typename details::Traits<CharT>::StringView;
+    using String       = typename details::Traits<CharT>::String;
+    using StringView   = typename details::Traits<CharT>::StringView;
     using ViewIterator = typename details::Traits<CharT>::ViewIterator;
 
     static constexpr const auto END_OF_BUFFER = details::Traits<CharT>::DEFAULT_CHARACTER;
 
     virtual constexpr ~InputBuffer() = default;
 
-    virtual constexpr CharT nextCharacter(void) noexcept = 0;
-    virtual constexpr Lexeme<CharT> acceptLexeme(void) noexcept = 0;
+    virtual constexpr CharT         nextCharacter(void) noexcept = 0;
+    virtual constexpr Lexeme<CharT> acceptLexeme(void) noexcept  = 0;
 };
 
 }; // namespace lepage::input

@@ -4,8 +4,9 @@
 // This file is distributed under the 3-clause Berkeley Software Distribution
 // License. See LICENSE for details.
 ////////////////////////////////////////////////////////////////////////////////
-#include <gtest/gtest.h>
 #include "SourceLocationProvider.h"
+
+#include <gtest/gtest.h>
 
 using namespace lepage::input;
 
@@ -101,7 +102,7 @@ TEST(SourceLocationProvider, Backward_AnyCharacter)
     sourceProvider.forward('s');
     sourceProvider.forward('t');
     sourceProvider.backward();
-    
+
     EXPECT_EQ(sourceProvider.currentLocation().line, 1);
     EXPECT_EQ(sourceProvider.currentLocation().column, 4);
     EXPECT_EQ(sourceProvider.previousLocation().line, 1);
@@ -186,7 +187,7 @@ TEST(SourceLocationProvider, Backward_CarriageReturnLineFeed)
     EXPECT_EQ(sourceProvider.currentLocation().column, 2);
     EXPECT_EQ(sourceProvider.previousLocation().line, 1);
     EXPECT_EQ(sourceProvider.previousLocation().column, 1);
-    
+
     sourceProvider.forward('\r');
     sourceProvider.forward('\n');
     EXPECT_EQ(sourceProvider.currentLocation().line, 2);

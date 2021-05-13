@@ -15,7 +15,7 @@ namespace lepage::input {
  */
 struct SourceLocation
 {
-    std::uint_least32_t line = 1;
+    std::uint_least32_t line   = 1;
     std::uint_least32_t column = 1;
 };
 

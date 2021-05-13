@@ -29,27 +29,25 @@ public:
     inline constexpr SingleInputBuffer(StringView content) noexcept;
     virtual constexpr ~SingleInputBuffer() = default;
 
-    inline constexpr CharT nextCharacter(void) noexcept override;
+    inline constexpr CharT         nextCharacter(void) noexcept override;
     inline constexpr Lexeme<CharT> acceptLexeme(void) noexcept override;
 
 private:
     using StringSize = typename InputBuffer<CharT>::StringView::size_type;
 
-    inline constexpr bool isBeginOfBuffer(void) noexcept;
-    inline constexpr bool isEndOfBuffer(void) noexcept;
-    inline constexpr bool isLexemeEmpty(void) noexcept;
+    inline constexpr bool       isBeginOfBuffer(void) noexcept;
+    inline constexpr bool       isEndOfBuffer(void) noexcept;
+    inline constexpr bool       isLexemeEmpty(void) noexcept;
     inline constexpr StringSize lexemeSize(void) noexcept;
-    inline constexpr String extractLexemeContent(void) noexcept;
+    inline constexpr String     extractLexemeContent(void) noexcept;
 
     const StringView buffer_;
-    ViewIterator lexemeBegin_;
-    ViewIterator lexemeEnd_;
+    ViewIterator     lexemeBegin_;
+    ViewIterator     lexemeEnd_;
 
     SourceLocationProvider<CharT> sourceLocation_;
-    SourceLocation lexemeStartLocation_;
+    SourceLocation                lexemeStartLocation_;
 };
-
-
 
 /*
  * SingleInputBuffer implementation
