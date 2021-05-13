@@ -6,6 +6,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef LEPAGE_TRAITS_H
 #define LEPAGE_TRAITS_H
+#include <string>
+#include <string_view>
+
 namespace lepage::details {
 
 template<typename CharT>
