@@ -10,3 +10,4 @@ option(LEPAGE_CODE_COVERAGE "Build lepage with code coverage" OFF)
 
 # Internals options
 set(LEPAGE_CXX_STANDARD "cxx_std_20" CACHE INTERNAL "CXX Standard used to build lepage")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

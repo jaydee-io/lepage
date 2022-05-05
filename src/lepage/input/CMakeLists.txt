@@ -18,8 +18,11 @@ add_library(${CMAKE_PROJECT_NAME}-input INTERFACE
 target_link_libraries(${CMAKE_PROJECT_NAME}-input INTERFACE ${CMAKE_PROJECT_NAME}-details)
 target_code_coverage(${CMAKE_PROJECT_NAME}-input INTERFACE)
 
-add_unit_test(unittest-input
+# Unit tests
+set(UNITTESTS_NAME lepage_input_tests)
+add_unit_test(TARGET ${UNITTESTS_NAME}
     SourceLocationProvider.test.cpp
     SingleInputBuffer.test.cpp
 )
-target_compile_features(unittest-input PRIVATE ${LEPAGE_CXX_STANDARD})
+target_compile_features(${UNITTESTS_NAME} PRIVATE ${LEPAGE_CXX_STANDARD})
+target_link_libraries(${UNITTESTS_NAME} PRIVATE ${CMAKE_PROJECT_NAME}-input)

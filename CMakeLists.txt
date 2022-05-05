@@ -13,7 +13,7 @@ include(Options)
 include(UnitTest)
 include(CodeCoverage)
 
-enable_unit_test()
+enable_unit_test(GOOGLETEST_VERSION "main")
 enable_code_coverage()
 
 include_directories(src)
