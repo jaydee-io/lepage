@@ -24,5 +24,6 @@ add_unit_test(TARGET ${UNITTESTS_NAME}
     SourceLocationProvider.test.cpp
     SingleInputBuffer.test.cpp
 )
+target_enable_warnings(${UNITTESTS_NAME} PRIVATE)
 target_compile_features(${UNITTESTS_NAME} PRIVATE ${LEPAGE_CXX_STANDARD})
 target_link_libraries(${UNITTESTS_NAME} PRIVATE ${CMAKE_PROJECT_NAME}-input)

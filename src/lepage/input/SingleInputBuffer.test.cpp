@@ -58,7 +58,7 @@ TEST(SingleInputBuffer, EndOfBuffer)
     SingleInputBuffer src(content);
 
     /* Parse the whole content */
-    for(const auto c : content)
+    for(std::size_t i=0; i<content.size(); i++)
         src.nextCharacter();
 
     /* Check end of buffer */
